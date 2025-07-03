@@ -12,7 +12,7 @@ const PortfolioSection = () => {
       iconClassName: "text-orange-500",
       titleClassName: "text-orange-500",
       backgroundImage: "https://images.unsplash.com/photo-1519741497674-611481863552?w=800&h=450&fit=crop",
-      className: "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
+      className: "[grid-area:stack] hover:-translate-y-10 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0"
     },
     {
       icon: <Edit className="size-4 text-orange-300" />,
@@ -22,7 +22,7 @@ const PortfolioSection = () => {
       iconClassName: "text-orange-500",
       titleClassName: "text-orange-500",
       backgroundImage: "https://images.unsplash.com/photo-1493225457124-a3eb161ffa5f?w=800&h=450&fit=crop",
-      className: "[grid-area:stack] translate-x-12 translate-y-8 hover:-translate-y-1 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0",
+      className: "[grid-area:stack] translate-x-12 translate-y-8 hover:-translate-y-1 before:absolute before:w-[100%] before:outline-1 before:rounded-xl before:outline-border before:h-[100%] before:content-[''] before:bg-blend-overlay before:bg-background/50 grayscale-[100%] hover:before:opacity-0 before:transition-opacity before:duration-700 hover:grayscale-0 before:left-0 before:top-0"
     },
     {
       icon: <Camera className="size-4 text-orange-300" />,
@@ -31,30 +31,43 @@ const PortfolioSection = () => {
       date: "Featured",
       iconClassName: "text-orange-500",
       titleClassName: "text-orange-500",
-      backgroundImage: undefined,
+      backgroundImage: "/video/car-thumb.jpg",
       video: "/video/car.mp4",
-      className: "[grid-area:stack] translate-x-24 translate-y-16 hover:translate-y-8",
+      className: "[grid-area:stack] translate-x-24 translate-y-16 hover:translate-y-8"
     },
     {
       icon: <Video className="size-4 text-orange-300" />,
-      title: "Midnight Dreams",
-      description: "Psychological thriller short film",
+      title: "The Box (Basketball Edit)",
+      description: "High-energy basketball highlight edit featuring dynamic plays, fast cuts, and electrifying moments from the court.",
       date: "Popular",
       iconClassName: "text-orange-500",
       titleClassName: "text-orange-500",
-      backgroundImage: "https://images.unsplash.com/photo-1489599735036-ad5877043088?w=800&h=450&fit=crop",
-      className: "[grid-area:stack] translate-x-36 translate-y-24 hover:translate-y-12",
+      backgroundImage: "/video/basketball-thumb.jpg",
+      video: "/video/basket.mp4",
+      className: "[grid-area:stack] translate-x-36 translate-y-24 hover:translate-y-12"
     },
     {
       icon: <Play className="size-4 text-orange-300" />,
-      title: "Golden Hour",
-      description: "Romantic indie music video",
+      title: "3D Animation",
+      description: "A visually stunning 3D animation project showcasing advanced motion graphics and creative storytelling.",
       date: "Award Winner",
       iconClassName: "text-orange-500",
       titleClassName: "text-orange-500",
-      backgroundImage: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&h=450&fit=crop",
-      className: "[grid-area:stack] translate-x-48 translate-y-32 hover:translate-y-20",
+      backgroundImage: "/video/3d-thumb.jpg",
+      video: "/video/3d.mp4",
+      className: "[grid-area:stack] translate-x-48 translate-y-32 hover:translate-y-20"
     },
+    {
+      icon: <Play className="size-4 text-orange-300" />,
+      title: "Sound Design",
+      description: "Immersive sound design project featuring creative audio effects, mixing, and original compositions for a cinematic experience.",
+      date: "New",
+      iconClassName: "text-orange-500",
+      titleClassName: "text-orange-500",
+      backgroundImage: "/video/sound-thumb.jpg",
+      video: "/video/audio.mp4",
+      className: "[grid-area:stack] translate-x-60 translate-y-40 hover:translate-y-28"
+    }
   ];
 
   return (

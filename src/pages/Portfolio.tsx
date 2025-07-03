@@ -193,7 +193,7 @@ const Portfolio = ({ isDark, onThemeToggle }) => {
                     src={project.thumbnail} 
                     alt={project.title}
                     className="w-full h-60 object-cover group-hover:scale-110 transition-transform duration-500 rounded-xl"
-                  />
+                      />
                   {videoExists && (
                     <button
                       className="absolute bottom-3 right-3 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 z-20 transition-colors flex items-center justify-center"
