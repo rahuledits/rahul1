@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { Play, Eye, Calendar, Tag } from 'lucide-react';
+import { Play, Eye, Calendar, Tag, X, Maximize2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { SparklesCore } from "@/components/ui/sparkles";
@@ -38,45 +38,49 @@ const Portfolio = ({ isDark, onThemeToggle }) => {
       id: 3,
       title: "Car Edit",
       category: "Reels & Shorts",
-      thumbnail: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?w=800&h=450&fit=crop",
+      thumbnail: "/video/car-thumb.jpg",
       duration: "1:30",
       date: "Oct 2024",
       description: "High-octane car edit with cinematic transitions and dynamic sound design.",
       tags: ["Professional", "Clean", "Modern"],
-      views: "8.3K"
+      views: "8.3K",
+      video: "/video/car.mp4"
     },
     {
       id: 4,
-      title: "Midnight Dreams",
-      category: "Short Films",
-      thumbnail: "https://images.unsplash.com/photo-1489599735036-ad5877043088?w=800&h=450&fit=crop",
-      duration: "8:22",
-      date: "Sep 2024",
-      description: "A psychological thriller exploring the boundaries between dreams and reality.",
-      tags: ["Thriller", "Atmospheric", "Suspense"],
-      views: "18.7K"
+      title: "The Box (Basketball Edit)",
+      category: "Sports Edit",
+      thumbnail: "/video/basketball-thumb.jpg",
+      duration: "2:10",
+      date: "Jul 2024",
+      description: "High-energy basketball highlight edit featuring dynamic plays, fast cuts, and electrifying moments from the court.",
+      tags: ["Basketball", "Sports", "Highlights", "Dynamic", "Energetic"],
+      views: "18.7K",
+      video: "/video/basket.mp4"
     },
     {
       id: 5,
-      title: "Golden Hour",
-      category: "Music Videos",
-      thumbnail: "https://images.unsplash.com/photo-1516450360452-9312f5e86fc7?w=800&h=450&fit=crop",
+      title: "3D Animation",
+      category: "Animated Video",
+      thumbnail: "/video/3d-thumb.jpg",
       duration: "3:28",
       date: "Aug 2024",
-      description: "Romantic indie music video shot during golden hour with natural lighting.",
-      tags: ["Natural", "Romantic", "Indie"],
-      views: "31.2K"
+      description: "A visually stunning 3D animation project showcasing advanced motion graphics and creative storytelling.",
+      tags: ["3D", "Animation", "Motion Graphics", "Creative"],
+      views: "31.2K",
+      video: "/video/3d.mp4"
     },
     {
       id: 6,
-      title: "Tech Innovation",
-      category: "Reels & Shorts",
-      thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=450&fit=crop",
-      duration: "2:15",
-      date: "Jul 2024",
-      description: "Product launch video featuring cutting-edge technology and sleek design.",
-      tags: ["Tech", "Sleek", "Futuristic"],
-      views: "15.4K"
+      title: "Sound Design",
+      category: "Audio Edit",
+      thumbnail: "/video/sound-thumb.jpg",
+      duration: "1:45",
+      date: "Jun 2024",
+      description: "Immersive sound design project featuring creative audio effects, mixing, and original compositions for a cinematic experience.",
+      tags: ["Sound", "Audio", "Mixing", "Effects", "Cinematic"],
+      views: "15.4K",
+      video: "/video/audio.mp4"
     }
   ];
 
@@ -90,7 +94,7 @@ const Portfolio = ({ isDark, onThemeToggle }) => {
     const checkVideos = async () => {
       const entries = await Promise.all(projects.map(async (project) => {
         const slug = project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-        const videoSrc = `/video/${slug}.mp4`;
+        const videoSrc = project.video || `/video/${slug}.mp4`;
         try {
           const res = await fetch(videoSrc, { method: 'HEAD' });
           return [project.id, res.ok];
@@ -105,6 +109,8 @@ const Portfolio = ({ isDark, onThemeToggle }) => {
     checkVideos();
     return () => { isMounted = false; };
   }, [projects]);
+
+  const [modalVideo, setModalVideo] = useState(null);
 
   return (
     <>
@@ -168,12 +174,13 @@ const Portfolio = ({ isDark, onThemeToggle }) => {
           >
             {filteredProjects.map((project, index) => {
               const slug = project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
-              const videoSrc = `/video/${slug}.mp4`;
-              const videoExists = videoMap[project.id];
+              const videoSrc = project.video || `/video/${slug}.mp4`;
+              const videoExists = project.video ? true : videoMap[project.id];
+              const videoRef = useRef(null);
               return (
               <motion.div
                 key={project.id}
-                className="group bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 hover:border-white/30 transition-all duration-300"
+                className="group bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 hover:border-white/30 transition-all duration-300 relative"
                 initial={{ opacity: 0, y: 50 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.1 }}
@@ -182,27 +189,21 @@ const Portfolio = ({ isDark, onThemeToggle }) => {
               >
                 {/* Thumbnail */}
                 <div className="relative overflow-hidden">
-                    {videoExists ? (
-                      <div className="relative mb-2">
-                        <video 
-                          src={videoSrc}
-                          controls
-                          poster={project.thumbnail}
-                          className="w-full h-48 object-cover rounded-xl border-2 border-cyan-400 shadow-[0_0_24px_2px_rgba(34,211,238,0.5)] group-hover:shadow-[0_0_48px_8px_rgba(236,72,153,0.7)] group-hover:scale-105 transition-all duration-500 bg-black"
-                          style={{ boxShadow: '0 0 24px 2px #22d3ee80' }}
-                        />
-                        <div className="absolute inset-0 pointer-events-none rounded-xl border-2 border-pink-500/60 group-hover:border-cyan-400/80 group-hover:shadow-[0_0_32px_8px_rgba(236,72,153,0.7)] transition-all duration-500" />
-                      </div>
-                    ) : (
                   <img 
                     src={project.thumbnail} 
                     alt={project.title}
-                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500 rounded-xl"
-                      />
-                    )}
-                  <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1 text-white text-sm">
-                    {project.duration}
-                  </div>
+                    className="w-full h-60 object-cover group-hover:scale-110 transition-transform duration-500 rounded-xl"
+                  />
+                  {videoExists && (
+                    <button
+                      className="absolute bottom-3 right-3 bg-black/60 hover:bg-black/80 text-white rounded-full p-2 z-20 transition-colors flex items-center justify-center"
+                      onClick={() => setModalVideo(videoSrc)}
+                      type="button"
+                    >
+                      <Play className="w-5 h-5" />
+                    </button>
+                  )}
+                  <div className="absolute inset-0 pointer-events-none rounded-xl border-2 border-pink-500/60 group-hover:border-cyan-400/80 group-hover:shadow-[0_0_32px_8px_rgba(236,72,153,0.7)] transition-all duration-500" />
                 </div>
 
                 {/* Content */}
@@ -247,6 +248,27 @@ const Portfolio = ({ isDark, onThemeToggle }) => {
           </motion.div>
         </div>
       </div>
+      {/* Modal for video zoom */}
+      {modalVideo && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm">
+          <div className="relative w-full max-w-3xl mx-auto p-4">
+            <button
+              className="absolute top-2 right-2 bg-black/70 hover:bg-black/90 text-white rounded-full p-2 z-50"
+              onClick={() => setModalVideo(null)}
+              type="button"
+            >
+              <X className="w-6 h-6" />
+            </button>
+            <video
+              src={modalVideo}
+              controls
+              autoPlay
+              className="w-full max-h-[80vh] rounded-xl border-2 border-cyan-400 bg-black shadow-2xl"
+              style={{ boxShadow: '0 0 32px 8px #22d3ee80' }}
+            />
+          </div>
+        </div>
+      )}
     </>
   );
 };

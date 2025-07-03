@@ -39,7 +39,7 @@ function DisplayCard({
           <video 
             src={video}
             controls
-            className="w-full h-36 object-cover rounded-xl border-2 border-cyan-400 shadow-[0_0_24px_2px_rgba(34,211,238,0.5)] group-hover:shadow-[0_0_48px_8px_rgba(236,72,153,0.7)] group-hover:scale-105 transition-all duration-500 bg-black"
+            className="w-full h-60 object-cover rounded-xl border-2 border-cyan-400 shadow-[0_0_24px_2px_rgba(34,211,238,0.5)] group-hover:shadow-[0_0_48px_8px_rgba(236,72,153,0.7)] group-hover:scale-105 transition-all duration-500 bg-black"
             style={{ boxShadow: '0 0 24px 2px #22d3ee80' }}
           />
           <div className="absolute inset-0 pointer-events-none rounded-xl border-2 border-pink-500/60 group-hover:border-cyan-400/80 group-hover:shadow-[0_0_32px_8px_rgba(236,72,153,0.7)] transition-all duration-500" />
