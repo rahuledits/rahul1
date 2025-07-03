@@ -1,4 +1,3 @@
-
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navigation from "@/components/navigation/Navigation";
@@ -14,10 +13,9 @@ import { SparklesCore } from "@/components/ui/sparkles";
 import { CreativePricing } from "@/components/ui/creative-pricing";
 import type { PricingTier } from "@/components/ui/creative-pricing";
 import { Pencil, Star, Sparkles } from "lucide-react";
+import { motion } from "framer-motion";
 
-const Index = () => {
-  const [isDarkMode, setIsDarkMode] = useState(true);
-
+const Index = ({ isDark, onThemeToggle }) => {
   const pricingTiers: PricingTier[] = [
     {
       name: "Basic Edit",
@@ -61,16 +59,25 @@ const Index = () => {
     },
   ];
 
-  useEffect(() => {
-    if (isDarkMode) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-  }, [isDarkMode]);
-
   return (
-    <div className={`min-h-screen ${isDarkMode ? 'bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900' : 'bg-gradient-to-br from-orange-50 via-orange-100 to-amber-50'} relative`}>
+    <div className="min-h-screen relative overflow-hidden">
+      {/* Site-wide animated gradient orb background (no infinite lines) */}
+      <motion.div
+        className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full z-0 pointer-events-none"
+        animate={{
+          scale: [1, 1.2, 1],
+          rotate: [0, 180, 360],
+        }}
+        transition={{
+          duration: 20,
+          repeat: Number.POSITIVE_INFINITY,
+          ease: "linear",
+        }}
+        style={{
+          background: "radial-gradient(circle at 50% 50%, rgba(99,102,241,0.18) 0%, rgba(139,92,246,0.14) 60%, rgba(236,72,153,0.10) 100%)",
+          filter: "blur(80px)"
+        }}
+      />
       {/* Site-wide background sparkles */}
       <div className="fixed inset-0 pointer-events-none z-0">
         <SparklesCore 
@@ -79,7 +86,7 @@ const Index = () => {
           maxSize={0.4} 
           particleDensity={30} 
           className="w-full h-full" 
-          particleColor={isDarkMode ? "#8b5cf6" : "#f97316"} 
+          particleColor={isDark ? "#8b5cf6" : "#f97316"} 
           speed={0.5} 
         />
       </div>
@@ -87,8 +94,8 @@ const Index = () => {
       {/* Navigation with sparkles */}
       <div className="relative z-20">
         <Navigation 
-          isDark={isDarkMode} 
-          onThemeToggle={() => setIsDarkMode(!isDarkMode)} 
+          isDark={isDark} 
+          onThemeToggle={onThemeToggle} 
         />
       </div>
       
@@ -101,12 +108,12 @@ const Index = () => {
             maxSize={0.8} 
             particleDensity={80} 
             className="w-full h-full" 
-            particleColor={isDarkMode ? "#fb923c" : "#ea580c"} 
+            particleColor={isDark ? "#fb923c" : "#ea580c"} 
             speed={1.2} 
           />
         </div>
         <div className="relative z-10">
-          <HeroSection isDarkMode={isDarkMode} />
+          <HeroSection isDarkMode={isDark} />
         </div>
       </div>
       
@@ -119,7 +126,7 @@ const Index = () => {
             maxSize={0.6} 
             particleDensity={60} 
             className="w-full h-full" 
-            particleColor={isDarkMode ? "#60a5fa" : "#3b82f6"} 
+            particleColor={isDark ? "#60a5fa" : "#3b82f6"} 
             speed={1} 
           />
         </div>
@@ -137,7 +144,7 @@ const Index = () => {
             maxSize={0.7} 
             particleDensity={70} 
             className="w-full h-full" 
-            particleColor={isDarkMode ? "#a78bfa" : "#8b5cf6"} 
+            particleColor={isDark ? "#a78bfa" : "#8b5cf6"} 
             speed={1.3} 
           />
         </div>
@@ -162,12 +169,12 @@ const Index = () => {
             maxSize={0.9} 
             particleDensity={90} 
             className="w-full h-full" 
-            particleColor={isDarkMode ? "#fb923c" : "#ea580c"} 
+            particleColor={isDark ? "#fb923c" : "#ea580c"} 
             speed={1.5} 
           />
         </div>
         <div className="relative z-10">
-          <ServicesSection isDarkMode={isDarkMode} />
+          <ServicesSection isDarkMode={isDark} />
         </div>
       </div>
 
@@ -180,7 +187,7 @@ const Index = () => {
             maxSize={0.8} 
             particleDensity={75} 
             className="w-full h-full" 
-            particleColor={isDarkMode ? "#fbbf24" : "#f59e0b"} 
+            particleColor={isDark ? "#fbbf24" : "#f59e0b"} 
             speed={1.2} 
           />
         </div>
@@ -210,7 +217,7 @@ const Index = () => {
             maxSize={0.6} 
             particleDensity={65} 
             className="w-full h-full" 
-            particleColor={isDarkMode ? "#fbbf24" : "#f59e0b"} 
+            particleColor={isDark ? "#fbbf24" : "#f59e0b"} 
             speed={1.1} 
           />
         </div>
@@ -221,7 +228,7 @@ const Index = () => {
       
       {/* Contact Section with sparkles */}
       <div className="relative z-10">
-        <ContactSection isDarkMode={isDarkMode} />
+        <ContactSection isDarkMode={isDark} />
       </div>
       
       {/* Infinity Brand with sparkles */}
@@ -233,7 +240,7 @@ const Index = () => {
             maxSize={1.0} 
             particleDensity={50} 
             className="w-full h-full" 
-            particleColor={isDarkMode ? "#ec4899" : "#db2777"} 
+            particleColor={isDark ? "#ec4899" : "#db2777"} 
             speed={2} 
           />
         </div>
@@ -244,7 +251,7 @@ const Index = () => {
       
       {/* Footer */}
       <div className="relative z-10">
-        <Footerdemo isDarkMode={isDarkMode} onThemeToggle={() => setIsDarkMode(!isDarkMode)} />
+        <Footerdemo isDarkMode={isDark} onThemeToggle={onThemeToggle} />
       </div>
     </div>
   );

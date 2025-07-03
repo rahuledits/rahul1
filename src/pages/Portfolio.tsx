@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import { Play, Eye, Calendar, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -9,7 +9,7 @@ import Navigation from "@/components/navigation/Navigation";
 const Portfolio = ({ isDark, onThemeToggle }) => {
   const [selectedCategory, setSelectedCategory] = useState('All');
   
-  const categories = ['All', 'Music Videos', 'Commercials', 'Weddings', 'Short Films'];
+  const categories = ['All', 'Music Videos', 'Reels & Shorts', 'Weddings', 'Short Films'];
   
   const projects = [
     {
@@ -36,12 +36,12 @@ const Portfolio = ({ isDark, onThemeToggle }) => {
     },
     {
       id: 3,
-      title: "Brand Vision",
-      category: "Commercials",
-      thumbnail: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=450&fit=crop",
+      title: "Car Edit",
+      category: "Reels & Shorts",
+      thumbnail: "https://images.unsplash.com/photo-1503736334956-4c8f8e92946d?w=800&h=450&fit=crop",
       duration: "1:30",
       date: "Oct 2024",
-      description: "Corporate commercial showcasing innovative technology solutions.",
+      description: "High-octane car edit with cinematic transitions and dynamic sound design.",
       tags: ["Professional", "Clean", "Modern"],
       views: "8.3K"
     },
@@ -70,7 +70,7 @@ const Portfolio = ({ isDark, onThemeToggle }) => {
     {
       id: 6,
       title: "Tech Innovation",
-      category: "Commercials",
+      category: "Reels & Shorts",
       thumbnail: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=800&h=450&fit=crop",
       duration: "2:15",
       date: "Jul 2024",
@@ -84,24 +84,44 @@ const Portfolio = ({ isDark, onThemeToggle }) => {
     ? projects 
     : projects.filter(project => project.category === selectedCategory);
 
+  const [videoMap, setVideoMap] = useState({});
+  useEffect(() => {
+    let isMounted = true;
+    const checkVideos = async () => {
+      const entries = await Promise.all(projects.map(async (project) => {
+        const slug = project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+        const videoSrc = `/video/${slug}.mp4`;
+        try {
+          const res = await fetch(videoSrc, { method: 'HEAD' });
+          return [project.id, res.ok];
+        } catch {
+          return [project.id, false];
+        }
+      }));
+      if (isMounted) {
+        setVideoMap(Object.fromEntries(entries));
+      }
+    };
+    checkVideos();
+    return () => { isMounted = false; };
+  }, [projects]);
+
   return (
     <>
       <Navigation isDark={isDark} onThemeToggle={onThemeToggle} />
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-        {/* Background Sparkles */}
-        <div className="fixed inset-0 pointer-events-none z-0">
-          <SparklesCore 
-            background="transparent" 
-            minSize={0.1} 
-            maxSize={0.4} 
-            particleDensity={30} 
-            className="w-full h-full" 
-            particleColor="#8b5cf6" 
-            speed={0.5} 
-          />
+      <div className="min-h-screen relative overflow-hidden dark">
+        {/* Animated gradient orb background */}
+        <motion.div
+          className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full z-0 pointer-events-none"
+          animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
+          transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+          style={{ background: "radial-gradient(circle at 50% 50%, rgba(99,102,241,0.18) 0%, rgba(139,92,246,0.14) 60%, rgba(236,72,153,0.10) 100%)", filter: "blur(80px)" }}
+        />
+        {/* Sparkles (now above orb) */}
+        <div className="fixed inset-0 pointer-events-none z-10">
+          <SparklesCore background="transparent" minSize={0.1} maxSize={0.4} particleDensity={30} className="w-full h-full" particleColor="#8b5cf6" speed={0.5} />
         </div>
-
-        <div className="relative z-10 container mx-auto px-6 py-20">
+        <div className="relative z-20 container mx-auto px-6 py-20">
           {/* Header */}
           <motion.div 
             className="text-center mb-16"
@@ -146,7 +166,11 @@ const Portfolio = ({ isDark, onThemeToggle }) => {
             className="grid md:grid-cols-2 lg:grid-cols-3 gap-8"
             layout
           >
-            {filteredProjects.map((project, index) => (
+            {filteredProjects.map((project, index) => {
+              const slug = project.title.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)/g, '');
+              const videoSrc = `/video/${slug}.mp4`;
+              const videoExists = videoMap[project.id];
+              return (
               <motion.div
                 key={project.id}
                 className="group bg-white/5 backdrop-blur-sm rounded-xl overflow-hidden border border-white/10 hover:border-white/30 transition-all duration-300"
@@ -158,20 +182,24 @@ const Portfolio = ({ isDark, onThemeToggle }) => {
               >
                 {/* Thumbnail */}
                 <div className="relative overflow-hidden">
+                    {videoExists ? (
+                      <div className="relative mb-2">
+                        <video 
+                          src={videoSrc}
+                          controls
+                          poster={project.thumbnail}
+                          className="w-full h-48 object-cover rounded-xl border-2 border-cyan-400 shadow-[0_0_24px_2px_rgba(34,211,238,0.5)] group-hover:shadow-[0_0_48px_8px_rgba(236,72,153,0.7)] group-hover:scale-105 transition-all duration-500 bg-black"
+                          style={{ boxShadow: '0 0 24px 2px #22d3ee80' }}
+                        />
+                        <div className="absolute inset-0 pointer-events-none rounded-xl border-2 border-pink-500/60 group-hover:border-cyan-400/80 group-hover:shadow-[0_0_32px_8px_rgba(236,72,153,0.7)] transition-all duration-500" />
+                      </div>
+                    ) : (
                   <img 
                     src={project.thumbnail} 
                     alt={project.title}
-                    className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500"
-                  />
-                  <div className="absolute inset-0 bg-black/40 group-hover:bg-black/20 transition-colors duration-300 flex items-center justify-center">
-                    <Button 
-                      size="lg"
-                      className="bg-white/20 backdrop-blur-sm border-white/30 hover:bg-white/30 opacity-0 group-hover:opacity-100 transition-all duration-300"
-                    >
-                      <Play className="w-5 h-5 mr-2" />
-                      Watch
-                    </Button>
-                  </div>
+                        className="w-full h-48 object-cover group-hover:scale-110 transition-transform duration-500 rounded-xl"
+                      />
+                    )}
                   <div className="absolute top-4 right-4 bg-black/60 backdrop-blur-sm rounded-full px-3 py-1 text-white text-sm">
                     {project.duration}
                   </div>
@@ -214,7 +242,8 @@ const Portfolio = ({ isDark, onThemeToggle }) => {
                   </div>
                 </div>
               </motion.div>
-            ))}
+              );
+            })}
           </motion.div>
         </div>
       </div>

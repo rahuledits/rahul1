@@ -8,7 +8,7 @@ const Footer = ({
   return <footer className={`py-12 ${isDarkMode ? 'bg-black/50' : 'bg-gray-100/50'}`}>
       <div className="container mx-auto px-6">
         <div className="text-center">
-          <div className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent">
+          <div className="text-2xl font-bold mb-4 bg-gradient-to-r from-blue-400 to-purple-400 bg-clip-text text-transparent" style={{ fontFamily: 'var(--font-moonrock)' }}>
             Rahul Meena
           </div>
           <p className={`${isDarkMode ? 'text-gray-400' : 'text-gray-600'} mb-6`}>Creative Video Editor & Cinematographer</p>

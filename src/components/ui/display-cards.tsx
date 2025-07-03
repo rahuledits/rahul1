@@ -11,6 +11,7 @@ interface DisplayCardProps {
   iconClassName?: string;
   titleClassName?: string;
   backgroundImage?: string;
+  video?: string;
 }
 function DisplayCard({
   className,
@@ -20,26 +21,40 @@ function DisplayCard({
   date = "Just now",
   iconClassName = "text-blue-500",
   titleClassName = "text-blue-500",
-  backgroundImage
+  backgroundImage,
+  video
 }: DisplayCardProps) {
-  return <div 
-    className={cn("relative flex h-36 w-[22rem] -skew-y-[8deg] select-none flex-col justify-between rounded-xl border-2 bg-muted/70 backdrop-blur-sm px-4 py-3 transition-all duration-700 after:absolute after:-right-1 after:top-[-5%] after:h-[110%] after:w-[20rem] after:bg-gradient-to-l after:from-background after:to-transparent after:content-[''] hover:border-white/20 hover:bg-muted [&>*]:flex [&>*]:items-center [&>*]:gap-2", className)}
-    style={backgroundImage ? {
+  return (
+    <div 
+      className={cn("relative flex flex-col justify-between rounded-xl border-2 bg-muted/70 backdrop-blur-sm px-4 py-3 transition-all duration-700 w-[22rem] -skew-y-[8deg] hover:border-white/20 hover:bg-muted group", className)}
+      style={(!video && backgroundImage) ? {
       backgroundImage: `url(${backgroundImage})`,
       backgroundSize: 'cover',
       backgroundPosition: 'center',
       backgroundRepeat: 'no-repeat'
     } : undefined}
   >
-      <div>
+      {video && (
+        <div className="relative mb-3">
+          <video 
+            src={video}
+            controls
+            className="w-full h-36 object-cover rounded-xl border-2 border-cyan-400 shadow-[0_0_24px_2px_rgba(34,211,238,0.5)] group-hover:shadow-[0_0_48px_8px_rgba(236,72,153,0.7)] group-hover:scale-105 transition-all duration-500 bg-black"
+            style={{ boxShadow: '0 0 24px 2px #22d3ee80' }}
+          />
+          <div className="absolute inset-0 pointer-events-none rounded-xl border-2 border-pink-500/60 group-hover:border-cyan-400/80 group-hover:shadow-[0_0_32px_8px_rgba(236,72,153,0.7)] transition-all duration-500" />
+        </div>
+      )}
+      <div className="flex items-center gap-2">
         <span className="relative inline-block rounded-full bg-blue-800 p-1">
           {icon}
         </span>
         <p className={cn("text-lg font-medium", titleClassName)}>{title}</p>
       </div>
-      <p className="whitespace-nowrap text-lg">{description}</p>
+      <p className="whitespace-nowrap text-lg mt-2">{description}</p>
       <p className="text-muted-foreground">{date}</p>
-    </div>;
+    </div>
+  );
 }
 interface DisplayCardsProps {
   cards?: DisplayCardProps[];

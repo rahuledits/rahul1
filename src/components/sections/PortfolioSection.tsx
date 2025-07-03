@@ -26,12 +26,13 @@ const PortfolioSection = () => {
     },
     {
       icon: <Camera className="size-4 text-orange-300" />,
-      title: "Brand Vision",
-      description: "Corporate commercial with impact",
+      title: "Car Edit",
+      description: "High-octane car edit with cinematic transitions and dynamic sound design.",
       date: "Featured",
       iconClassName: "text-orange-500",
       titleClassName: "text-orange-500",
-      backgroundImage: "https://images.unsplash.com/photo-1551434678-e076c223a692?w=800&h=450&fit=crop",
+      backgroundImage: undefined,
+      video: "/video/car.mp4",
       className: "[grid-area:stack] translate-x-24 translate-y-16 hover:translate-y-8",
     },
     {

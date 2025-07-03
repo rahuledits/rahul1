@@ -8,6 +8,110 @@ interface HeroSectionProps {
   isDarkMode: boolean;
 }
 
+const demoText = "RAHUL";
+
+function CyberpunkGlitchMagneticHero() {
+  const [hoveredIndex, setHoveredIndex] = React.useState(-1);
+  const [offset, setOffset] = React.useState({ x: 0, y: 0 });
+
+  function handleMouseEnter(i: number) {
+    setHoveredIndex(i);
+    setOffset({ x: 0, y: 0 });
+  }
+  function handleMouseMove(e: React.MouseEvent<HTMLSpanElement>, i: number) {
+    if (hoveredIndex !== i) return;
+    const rect = e.currentTarget.getBoundingClientRect();
+    const centerX = rect.left + rect.width / 2;
+    const centerY = rect.top + rect.height / 2;
+    const x = e.clientX - centerX;
+    const y = e.clientY - centerY;
+    setOffset({ x, y });
+  }
+  function handleMouseLeave() {
+    setHoveredIndex(-1);
+    setOffset({ x: 0, y: 0 });
+  }
+
+  return (
+    <h1
+      className="text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tighter text-red-600 drop-shadow-2xl relative flex justify-center items-center"
+      style={{ fontSize: 'clamp(2rem, 8vw, 7rem)', lineHeight: 0.9 }}
+    >
+      {/* Animated glow behind RAHUL */}
+      <motion.div
+        className="absolute inset-0 z-0 pointer-events-none"
+        initial={{ opacity: 0.7, filter: 'blur(32px)' }}
+        animate={{
+          opacity: [0.7, 1, 0.7],
+          filter: [
+            'blur(32px) drop-shadow(0 0 40px #ff003c)',
+            'blur(48px) drop-shadow(0 0 80px #ff003c)',
+            'blur(32px) drop-shadow(0 0 40px #ff003c)'
+          ]
+        }}
+        transition={{ duration: 3, repeat: Infinity, repeatType: 'loop', ease: 'easeInOut' }}
+        style={{ background: 'radial-gradient(circle at 50% 60%, #ff003c44 0%, #ff003c11 80%, transparent 100%)' }}
+      />
+      {/* Letters with pop/magnetic/glitch */}
+      {demoText.split("").map((letter, i) => {
+        const isHovered = hoveredIndex === i;
+        return (
+          <span
+            key={i}
+            className="inline-block relative cursor-pointer"
+            onMouseEnter={() => handleMouseEnter(i)}
+            onMouseMove={e => handleMouseMove(e, i)}
+            onMouseLeave={handleMouseLeave}
+            style={{ display: 'inline-block', fontFamily: 'Stardock, sans-serif' }}
+          >
+            <motion.span
+              className="relative z-10"
+              animate={
+                isHovered
+                  ? { x: offset.x * 2.5, y: offset.y * 2.5, scale: 2.3 }
+                  : { x: 0, y: 0, scale: 1 }
+              }
+              transition={
+                isHovered
+                  ? { type: 'spring', stiffness: 700, damping: 18, mass: 0.5 }
+                  : { type: 'spring', stiffness: 180, damping: 8 }
+              }
+              style={{ filter: isHovered ? 'drop-shadow(0 0 40px #ff003c)' : 'drop-shadow(0 0 8px #ff003c)' }}
+            >
+              {letter}
+            </motion.span>
+            {/* Always-on cyberpunk glitch overlays, but less intense */}
+            <motion.span
+              className="absolute left-0 top-0 z-0 pointer-events-none"
+              style={{ color: '#00fff7', opacity: 0.4, filter: 'blur(0.5px) drop-shadow(0 0 4px #00fff7)' }}
+              animate={{
+                x: [0, -4, 4, -2, 0],
+                y: [0, 4, -4, 2, 0],
+                opacity: [0.4, 0.2, 0.4, 0.3, 0.4]
+              }}
+              transition={{ duration: 0.7, repeat: Infinity, repeatType: 'loop', delay: i * 0.09 }}
+            >
+              {letter}
+            </motion.span>
+            <motion.span
+              className="absolute left-0 top-0 z-0 pointer-events-none"
+              style={{ color: '#fff', opacity: 0.2, filter: 'blur(0.2px) drop-shadow(0 0 2px #fff)' }}
+              animate={{
+                x: [0, 4, -4, 2, 0],
+                y: [0, -4, 4, -2, 0],
+                opacity: [0.2, 0.1, 0.2, 0.15, 0.2]
+              }}
+              transition={{ duration: 0.7, repeat: Infinity, repeatType: 'loop', delay: i * 0.13 }}
+            >
+              {letter}
+            </motion.span>
+          </span>
+        );
+      })}
+    </h1>
+  );
+}
+
 const HeroSection = ({
   isDarkMode
 }: HeroSectionProps) => {
@@ -20,30 +124,8 @@ const HeroSection = ({
         <BackgroundPaths titleBackground={false} showGradientOrb={true} backgroundStyle="gradient" />
       </div>
       {/* Animated 'RAHUL' heading centered at the top with extra space */}
-      <div className="absolute top-8 left-1/2 transform -translate-x-1/2 z-40 mt-16">
-        <motion.h1
-          initial={{ opacity: 0, y: -40 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="text-5xl sm:text-7xl md:text-8xl lg:text-9xl font-bold tracking-tighter bg-gradient-to-br from-red-800 via-red-600 to-red-500 bg-clip-text text-transparent drop-shadow-2xl"
-        >
-          {"RAHUL".split("").map((letter, i) => (
-            <motion.span
-              key={i}
-              initial={{ y: 100, opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{
-                delay: i * 0.08,
-                type: "spring",
-                stiffness: 150,
-                damping: 25,
-              }}
-              className="inline-block"
-            >
-              {letter}
-            </motion.span>
-          ))}
-        </motion.h1>
+      <div className="absolute top-10 left-1/2 transform -translate-x-1/2 z-10 mt-8 w-full flex justify-center items-center min-h-[10vw] md:min-h-[12vw] lg:min-h-[6rem]">
+        <CyberpunkGlitchMagneticHero />
       </div>
       {/* Sparkles (stars) behind robot, text, and lines */}
       <div className="absolute inset-0 z-5 pointer-events-none">

@@ -44,7 +44,7 @@ const CreateTogether = ({ isDark, onThemeToggle }) => {
               transition={{ duration: 0.8, delay: 0.4 }}
             >
               Transform your vision into compelling visual stories. Whether it's a brand video, 
-              commercial, or creative project, let's bring your ideas to life with cinematic excellence.
+              reels & shorts, or creative project, let's bring your ideas to life with cinematic excellence.
             </motion.p>
 
             <motion.div 
@@ -109,7 +109,7 @@ const CreateTogether = ({ isDark, onThemeToggle }) => {
                   From concept to completion, we create engaging videos that tell your story and connect with your audience.
                 </p>
                 <ul className="text-sm text-gray-400 space-y-2">
-                  <li>• Brand Videos & Commercials</li>
+                  <li>• Brand Videos & Reels & Shorts</li>
                   <li>• Music Videos & Promos</li>
                   <li>• Event & Wedding Coverage</li>
                   <li>• Product Showcases</li>

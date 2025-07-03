@@ -95,7 +95,7 @@ const Contact = ({ isDark, onThemeToggle }) => {
 
   const projectTypes = [
     "Music Video",
-    "Commercial/Ad",
+    "Reels & Shorts",
     "Wedding Video",
     "Corporate Video",
     "Short Film",
@@ -116,21 +116,19 @@ const Contact = ({ isDark, onThemeToggle }) => {
   return (
     <>
       <Navigation isDark={isDark} onThemeToggle={onThemeToggle} />
-      <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 relative overflow-hidden">
-        {/* Background Sparkles */}
-        <div className="fixed inset-0 pointer-events-none z-0">
-          <SparklesCore 
-            background="transparent" 
-            minSize={0.1} 
-            maxSize={0.4} 
-            particleDensity={30} 
-            className="w-full h-full" 
-            particleColor="#8b5cf6" 
-            speed={0.5} 
-          />
+      <div className="min-h-screen relative overflow-hidden dark">
+        {/* Animated gradient orb background */}
+        <motion.div
+          className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full z-0 pointer-events-none"
+          animate={{ scale: [1, 1.2, 1], rotate: [0, 180, 360] }}
+          transition={{ duration: 20, repeat: Number.POSITIVE_INFINITY, ease: "linear" }}
+          style={{ background: "radial-gradient(circle at 50% 50%, rgba(99,102,241,0.18) 0%, rgba(139,92,246,0.14) 60%, rgba(236,72,153,0.10) 100%)", filter: "blur(80px)" }}
+        />
+        {/* Sparkles (now above orb) */}
+        <div className="fixed inset-0 pointer-events-none z-10">
+          <SparklesCore background="transparent" minSize={0.1} maxSize={0.4} particleDensity={30} className="w-full h-full" particleColor="#8b5cf6" speed={0.5} />
         </div>
-
-        <div className="relative z-10 container mx-auto px-6 py-20">
+        <div className="relative z-20 container mx-auto px-6 py-20">
           {/* Header */}
           <motion.div 
             className="text-center mb-16"

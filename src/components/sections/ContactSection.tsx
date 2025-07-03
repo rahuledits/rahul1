@@ -95,7 +95,7 @@ const ContactSection = ({
             Let's Create Magic
           </h2>
           <p className="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
-            Transform your vision into stunning visuals. Whether it's a commercial, music video, or personal project, 
+            Transform your vision into stunning visuals. Whether it's reels & shorts, music video, or personal project, 
             let's bring your story to life with cinematic excellence.
           </p>
         </motion.div>
@@ -145,7 +145,7 @@ const ContactSection = ({
                     <AnimatedInput label="Email Address" value={formData.email} onChange={e => handleInputChange('email', e.target.value)} type="email" className="w-full" />
                   </div>
                   
-                  <AnimatedInput label="Project Type" value={formData.projectType} onChange={e => handleInputChange('projectType', e.target.value)} placeholder="e.g., Commercial, Music Video, Wedding..." className="w-full" />
+                  <AnimatedInput label="Project Type" value={formData.projectType} onChange={e => handleInputChange('projectType', e.target.value)} placeholder="e.g., Reels & Shorts, Music Video, Wedding..." className="w-full" />
                   
                   <div>
                     <label className="block text-sm font-medium mb-2 text-white">

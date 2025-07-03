@@ -1,4 +1,3 @@
-
 import { LimelightNav, NavItem } from "@/components/ui/limelight-nav";
 import { Home, Bookmark, PlusCircle, User, Settings, Calendar, Code, FileText, Clock, Sun, Moon } from 'lucide-react';
 import { ThemeToggle } from "@/components/ui/theme-toggle"
@@ -7,6 +6,7 @@ import type { PricingTier } from "@/components/ui/creative-pricing"
 import { Check, Pencil, Star, Sparkles } from "lucide-react";
 import RadialOrbitalTimeline from "@/components/ui/radial-orbital-timeline";
 import { MagnetizeButton } from "@/components/ui/magnetize-button"
+import { Component } from "@/components/ui/vapour-text-effect";
 
 const customNavItems = [
   { id: 'home', icon: <Home />, label: 'Home', onClick: () => console.log('Home Clicked!') },
@@ -205,3 +205,13 @@ const DemoRevealLinks = () => {
 };
 
 export { DemoRevealLinks };
+
+const DemoOne = () => {
+  return (
+    <div className="flex w-full h-screen justify-center items-center">
+      <Component />
+    </div>
+  );
+};
+
+export { DemoOne };
