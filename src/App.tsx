@@ -11,6 +11,9 @@ import Services from "./pages/Services";
 import CreateTogether from "./pages/CreateTogether";
 import NotFound from "./pages/NotFound";
 import AdminDashboard from "./components/AdminDashboard";
+import { Interactive3DBackground } from '@/components/ui/interactive-3d-background';
+import { FloatingActionButton } from '@/components/ui/floating-action-button';
+import { TypingEffect } from '@/components/ui/typing-effect';
 
 const queryClient = new QueryClient();
 
@@ -31,6 +34,7 @@ const App = () => {
       <TooltipProvider>
         <Toaster />
         <Sonner />
+        <FloatingActionButton />
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Index isDark={isDark} onThemeToggle={handleThemeToggle} />} />

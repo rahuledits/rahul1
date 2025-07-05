@@ -12,11 +12,12 @@ interface NavigationProps {
 const Navigation = ({ isDark = false, onThemeToggle = () => {} }: NavigationProps) => {
   const location = useLocation();
   
-  const navItems = [
-    { href: "/", label: "Home" },
-    { href: "/about", label: "About" },
-    { href: "/portfolio", label: "Portfolio" },
-    { href: "/services", label: "Services & Contact" },
+  const navigationItems = [
+    { href: '#home', label: 'Home' },
+    { href: '#about', label: 'About' },
+    { href: '#services', label: 'Start Your Edit' },
+    { href: '#portfolio', label: 'Portfolio' },
+    { href: '#contact', label: 'Start Your Edit' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -26,11 +27,11 @@ const Navigation = ({ isDark = false, onThemeToggle = () => {} }: NavigationProp
       <div className="container mx-auto px-6 py-4">
         <div className="flex items-center justify-between rounded-full">
           <Link to="/" className={`text-2xl font-bold ${isDark ? 'bg-gradient-to-r from-blue-400 to-purple-400' : 'bg-gradient-to-r from-orange-500 to-orange-700'} bg-clip-text text-transparent hover:opacity-80 transition-opacity`} style={{ fontFamily: 'var(--font-moonrock)' }}>
-            Rahul Meena
+            Rahul Meena 🎬
           </Link>
           
           <div className="hidden md:flex space-x-8">
-            {navItems.map((item) => {
+            {navigationItems.map((item) => {
               const active = isActive(item.href);
               return (
                 <Link 

@@ -3,6 +3,8 @@ import { InteractiveRobotSpline } from "@/components/ui/interactive-3d-robot";
 import { BackgroundPaths } from "@/components/ui/animated-infinity-background";
 import { SparklesCore } from "@/components/ui/sparkles";
 import { motion } from "framer-motion";
+import { TypingEffect } from '@/components/ui/typing-effect';
+import { Interactive3DBackground } from '@/components/ui/interactive-3d-background';
 
 interface HeroSectionProps {
   isDarkMode: boolean;
@@ -117,10 +119,21 @@ const HeroSection = ({
 }: HeroSectionProps) => {
   const ROBOT_SCENE_URL = "https://prod.spline.design/PyzDhpQ9E5f1E3MT/scene.splinecode";
 
+  const words = [
+    "Creative Videographer",
+    "Video Editor",
+    "Content Creator",
+    "Storyteller"
+  ];
+
   return (
     <section id="home" className="relative min-h-screen flex flex-col items-center overflow-hidden">
-      {/* Animated Infinity Background (bottom layer) */}
-      <div className="absolute inset-0 z-0">
+      {/* Interactive 3D Background (bottom layer) */}
+      <div className="absolute inset-0 z-0 opacity-30">
+        <Interactive3DBackground />
+      </div>
+      {/* Animated Infinity Background (above 3D) */}
+      <div className="absolute inset-0 z-1">
         <BackgroundPaths titleBackground={false} showGradientOrb={true} backgroundStyle="gradient" />
       </div>
       {/* Animated 'RAHUL' heading centered at the top with extra space */}
@@ -149,6 +162,18 @@ const HeroSection = ({
           <h1 className="text-4xl md:text-6xl font-bold mb-4 bg-gradient-to-r from-orange-400 to-orange-600 bg-clip-text text-transparent drop-shadow-lg">
             Video Editor & Cinematographer
           </h1>
+          <motion.div 
+            className="text-2xl md:text-4xl font-semibold mb-6 text-white/90"
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.5, duration: 0.8 }}
+          >
+            I'm Rahul, a{' '}
+            <TypingEffect 
+              words={words} 
+              className="text-orange-400 font-bold"
+            />
+          </motion.div>
         </div>
       </div>
       {/* Floating Elements (topmost) */}
