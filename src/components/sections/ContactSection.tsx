@@ -1,26 +1,28 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Mail, Phone, MapPin, Send, MessageCircle, Calendar, Camera, Instagram, Facebook, Linkedin, Twitter, Youtube, Code, FileText, User, Clock, CheckCircle, AlertCircle } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Send, CheckCircle, AlertCircle } from 'lucide-react';
 import { AnimatedInput } from '@/components/ui/animated-input';
 import { Textarea } from '@/components/ui/textarea';
-import { AnimatedButton } from '@/components/ui/animated-button';
-import { SparklesCore } from "@/components/ui/sparkles";
 import { MagnetizeButton } from '@/components/ui/magnetize-button';
+import { SparklesCore } from "@/components/ui/sparkles";
 import { SocialRevealLinks } from "@/components/ui/social-reveal-links";
+import { contactApi } from '@/services/api';
 
 interface ContactSectionProps {
   isDarkMode: boolean;
+  pricingTiers: { name: string; price: number; description: string }[];
 }
 
 const ContactSection = ({
-  isDarkMode
+  isDarkMode,
+  pricingTiers
 }: ContactSectionProps) => {
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     projectType: '',
-    message: ''
+    message: '',
+    selectedPlan: ''
   });
 
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -28,35 +30,38 @@ const ContactSection = ({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!formData.selectedPlan) return; // Require plan selection
     setIsSubmitting(true);
     setSubmitStatus('idle');
 
     try {
-      // Simulate email sending (replace with actual email service)
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      // Prepare the message content
+      const fullMessage = `Project Type: ${formData.projectType}\nSelected Plan: ${formData.selectedPlan}\n\nMessage:\n${formData.message}`;
       
-      // Here you would typically send the email using a service like EmailJS, Formspree, or your own backend
-      console.log('Form submitted:', formData);
-      
-      // For now, we'll simulate a successful submission
-      setSubmitStatus('success');
-      
-      // Reset form after successful submission
-      setFormData({
-        name: '',
-        email: '',
-        projectType: '',
-        message: ''
+      // Send to backend API
+      const response = await contactApi.send({
+        name: formData.name,
+        email: formData.email,
+        subject: `New Project Inquiry - ${formData.selectedPlan}`,
+        message: fullMessage
       });
-      
-      // Reset status after 5 seconds
-      setTimeout(() => setSubmitStatus('idle'), 5000);
-      
+
+      if (response.success) {
+        setSubmitStatus('success');
+        setFormData({
+          name: '',
+          email: '',
+          projectType: '',
+          message: '',
+          selectedPlan: ''
+        });
+        setTimeout(() => setSubmitStatus('idle'), 5000);
+      } else {
+        throw new Error(response.error || 'Failed to send message');
+      }
     } catch (error) {
       console.error('Error submitting form:', error);
       setSubmitStatus('error');
-      
-      // Reset error status after 5 seconds
       setTimeout(() => setSubmitStatus('idle'), 5000);
     } finally {
       setIsSubmitting(false);
@@ -64,10 +69,7 @@ const ContactSection = ({
   };
 
   const handleInputChange = (field: string, value: string) => {
-    setFormData(prev => ({
-      ...prev,
-      [field]: value
-    }));
+    setFormData(prev => ({ ...prev, [field]: value }));
   };
 
   return (
@@ -76,18 +78,9 @@ const ContactSection = ({
       <div className="absolute inset-0">
         <SparklesCore background="transparent" minSize={0.2} maxSize={0.6} particleDensity={60} className="w-full h-full" particleColor={isDarkMode ? "#fb923c" : "#ea580c"} speed={1} />
       </div>
-
       <div className="container mx-auto px-6 relative z-10">
         {/* Header */}
-        <motion.div className="text-center mb-20" initial={{
-        opacity: 0,
-        y: 30
-      }} animate={{
-        opacity: 1,
-        y: 0
-      }} transition={{
-        duration: 0.8
-      }}>
+        <motion.div className="text-center mb-20" initial={{ opacity: 0, y: 30 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.8 }}>
           <div className="inline-block bg-gradient-to-r from-orange-500/20 to-pink-500/20 backdrop-blur-sm border border-orange-500/30 rounded-full px-6 py-2 mb-6">
             <span className="text-orange-300 font-medium">Ready to Start?</span>
           </div>
@@ -99,61 +92,54 @@ const ContactSection = ({
             let's bring your story to life with cinematic excellence.
           </p>
         </motion.div>
-
-        {/* Contact Grid */}
         <div className="grid lg:grid-cols-2 gap-16 max-w-7xl mx-auto">
           {/* Social Links Section */}
-          <motion.div className="relative" initial={{
-          opacity: 0,
-          x: -50
-        }} animate={{
-          opacity: 1,
-          x: 0
-        }} transition={{
-          duration: 0.6,
-          delay: 0.2
-        }}>
+          <motion.div className="relative" initial={{ opacity: 0, x: -50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.2 }}>
             <div className="bg-gradient-to-br from-slate-800/20 to-purple-800/10 backdrop-blur-sm rounded-2xl p-16 bg-transparent">
-              
               <SocialRevealLinks />
             </div>
           </motion.div>
-
           {/* Contact Form */}
-          <motion.div className="relative" initial={{
-          opacity: 0,
-          x: 50
-        }} animate={{
-          opacity: 1,
-          x: 0
-        }} transition={{
-          duration: 0.6,
-          delay: 0.4
-        }}>
+          <motion.div className="relative" initial={{ opacity: 0, x: 50 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.4 }}>
             <div className="bg-gradient-to-br from-white/5 to-white/10 backdrop-blur-md border border-white/20 rounded-3xl p-8 relative overflow-hidden">
               {/* Form Sparkles */}
               <div className="absolute inset-0 opacity-30">
                 <SparklesCore background="transparent" minSize={0.3} maxSize={0.8} particleDensity={60} className="w-full h-full" particleColor="#fb923c" speed={1.5} />
               </div>
-
               <div className="relative z-10">
                 <h3 className="text-2xl font-bold text-white mb-8">Start Your Project</h3>
-                
+                {/* Pricing Plan Selection */}
+                <div className="mb-6">
+                  <label className="block text-white font-medium mb-2">Select a Plan *</label>
+                  <div className="flex flex-col gap-4">
+                    {pricingTiers.map((tier) => (
+                      <label key={tier.name} className={`flex items-center gap-4 p-4 rounded-lg border cursor-pointer transition-all ${formData.selectedPlan === tier.name ? 'border-amber-400 bg-amber-100/10' : 'border-white/20 bg-white/5'}`}>
+                        <input
+                          type="radio"
+                          name="selectedPlan"
+                          value={tier.name}
+                          checked={formData.selectedPlan === tier.name}
+                          onChange={() => handleInputChange('selectedPlan', tier.name)}
+                          className="form-radio h-5 w-5 text-amber-400 focus:ring-amber-400"
+                          required
+                        />
+                        <span className="font-semibold text-white">{tier.name}</span>
+                        <span className="text-amber-300">${tier.price}</span>
+                        <span className="text-zinc-400 italic">{tier.description}</span>
+                      </label>
+                    ))}
+                  </div>
+                </div>
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid md:grid-cols-2 gap-6">
-                    <AnimatedInput label="Your Name" value={formData.name} onChange={e => handleInputChange('name', e.target.value)} className="w-full" />
-                    <AnimatedInput label="Email Address" value={formData.email} onChange={e => handleInputChange('email', e.target.value)} type="email" className="w-full" />
+                    <AnimatedInput label="Your Name" value={formData.name} onChange={e => handleInputChange('name', e.target.value)} className="w-full" required />
+                    <AnimatedInput label="Email Address" value={formData.email} onChange={e => handleInputChange('email', e.target.value)} type="email" className="w-full" required />
                   </div>
-                  
                   <AnimatedInput label="Project Type" value={formData.projectType} onChange={e => handleInputChange('projectType', e.target.value)} placeholder="e.g., Reels & Shorts, Music Video, Wedding..." className="w-full" />
-                  
                   <div>
-                    <label className="block text-sm font-medium mb-2 text-white">
-                      Tell me about your vision
-                    </label>
+                    <label className="block text-sm font-medium mb-2 text-white">Tell me about your vision</label>
                     <Textarea placeholder="Describe your project, style preferences, timeline, and budget range..." value={formData.message} onChange={e => handleInputChange('message', e.target.value)} rows={6} className="w-full bg-white/10 border-white/20 text-white placeholder-gray-400 backdrop-blur-sm focus:border-orange-500/50" />
                   </div>
-                  
                   <MagnetizeButton 
                     type="submit" 
                     disabled={isSubmitting}
@@ -177,7 +163,6 @@ const ContactSection = ({
                       </>
                     )}
                   </MagnetizeButton>
-
                   {/* Status Messages */}
                   <AnimatePresence>
                     {submitStatus === 'success' && (
@@ -217,7 +202,6 @@ const ContactSection = ({
                         </div>
                       </motion.div>
                     )}
-
                     {submitStatus === 'error' && (
                       <motion.div 
                         initial={{ opacity: 0, y: 20, scale: 0.9 }}
@@ -228,7 +212,7 @@ const ContactSection = ({
                       >
                         <div className="flex items-center">
                           <motion.div
-                            initial={{ scale: 0, rotate: 180 }}
+                            initial={{ scale: 0, rotate: -180 }}
                             animate={{ scale: 1, rotate: 0 }}
                             transition={{ type: "spring", stiffness: 300, delay: 0.2 }}
                           >
@@ -241,7 +225,7 @@ const ContactSection = ({
                               transition={{ delay: 0.3 }}
                               className="text-red-200 text-sm font-medium"
                             >
-                              <strong>Something went wrong.</strong>
+                              <strong>Failed to send message</strong>
                             </motion.p>
                             <motion.p 
                               initial={{ opacity: 0, x: -10 }}
@@ -249,7 +233,7 @@ const ContactSection = ({
                               transition={{ delay: 0.4 }}
                               className="text-red-300 text-xs mt-1"
                             >
-                              Please try again or contact me directly at jirahulmeena@gmail.com
+                              Please try again or contact me directly via social media.
                             </motion.p>
                           </div>
                         </div>
@@ -257,12 +241,6 @@ const ContactSection = ({
                     )}
                   </AnimatePresence>
                 </form>
-
-                <div className="mt-8 pt-6 border-t border-white/20">
-                  <p className="text-gray-400 text-sm text-center">
-                    Typically respond within 2-4 hours • Free consultation included
-                  </p>
-                </div>
               </div>
             </div>
           </motion.div>

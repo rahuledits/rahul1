@@ -16,8 +16,7 @@ const Navigation = ({ isDark = false, onThemeToggle = () => {} }: NavigationProp
     { href: "/", label: "Home" },
     { href: "/about", label: "About" },
     { href: "/portfolio", label: "Portfolio" },
-    { href: "/services", label: "Services" },
-    { href: "/contact", label: "Contact" },
+    { href: "/services", label: "Services & Contact" },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -73,7 +72,7 @@ const Navigation = ({ isDark = false, onThemeToggle = () => {} }: NavigationProp
               />
               <Moon className={`h-4 w-4 ${isDark ? 'text-blue-400' : 'text-gray-400'} transition-colors`} />
             </div>
-            <Link to="/contact">
+            <Link to="/services">
               <Button className={`${isDark ? 'bg-gradient-to-r from-blue-600 to-purple-600 hover:from-blue-700 hover:to-purple-700' : 'bg-gradient-to-r from-orange-500 to-orange-600 hover:from-orange-600 hover:to-orange-700'} shadow-lg transform hover:scale-105 transition-all duration-200`}>
                 Hire Me
               </Button>

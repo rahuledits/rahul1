@@ -1,73 +1,159 @@
-# Welcome to your Lovable project
+# 🎬 Video Editor Portfolio
 
-## Project info
+A stunning, modern portfolio website for video editors and content creators, built with React, TypeScript, and a full-stack backend.
 
-**URL**: https://lovable.dev/projects/848f71b4-c521-4eb9-92d6-139f002e8f29
+## ✨ Features
 
-## How can I edit this code?
+### Frontend
+- 🎨 **Modern UI/UX** - Beautiful animations and interactions
+- 📱 **Responsive Design** - Works perfectly on all devices
+- 🌙 **Dark/Light Mode** - Toggle between themes
+- 🎥 **Video Showcase** - Display your video projects with thumbnails
+- 📧 **Contact Form** - Integrated with backend API
+- ⚡ **Fast Performance** - Optimized with Vite
 
-There are several ways of editing your application.
+### Backend
+- 🔐 **Authentication** - JWT-based user management
+- 📊 **Database** - MongoDB with Mongoose
+- 🛡️ **Security** - Rate limiting, CORS, input validation
+- 📝 **API Endpoints** - Complete REST API
+- 🔄 **Real-time** - Live data updates
 
-**Use Lovable**
+## 🚀 Quick Start
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/848f71b4-c521-4eb9-92d6-139f002e8f29) and start prompting.
-
-Changes made via Lovable will be committed automatically to this repo.
-
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
-
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
-
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
-
-# Step 3: Install the necessary dependencies.
-npm i
-
-# Step 4: Start the development server with auto-reloading and an instant preview.
+### 1. Start the Backend
+```bash
+cd backend
+npm install
 npm run dev
 ```
+Backend will run on: `http://localhost:3001`
 
-**Edit a file directly in GitHub**
+### 2. Start the Frontend
+```bash
+npm install
+npm run dev
+```
+Frontend will run on: `http://localhost:8084` (or next available port)
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+### 3. Access Your Portfolio
+- **Main Site**: `http://localhost:8084`
+- **Admin Dashboard**: `http://localhost:8084/admin`
+- **API Health**: `http://localhost:3001/api/health`
 
-**Use GitHub Codespaces**
+## 📡 API Endpoints
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+### Portfolio
+- `GET /api/portfolio` - Get all projects
+- `POST /api/portfolio` - Add new project (admin)
+- `PUT /api/portfolio/:id` - Update project (admin)
+- `DELETE /api/portfolio/:id` - Delete project (admin)
 
-## What technologies are used for this project?
+### Contact
+- `POST /api/contact` - Send contact message
+- `GET /api/contact` - Get all messages (admin)
 
-This project is built with:
+### Authentication
+- `POST /api/auth/login` - User login
+- `POST /api/auth/register` - User registration
+- `GET /api/auth/me` - Get current user
 
-- Vite
+## 🎯 What's Working
+
+✅ **Backend Server** - Running on port 3001  
+✅ **API Integration** - Frontend connected to backend  
+✅ **Portfolio Display** - Dynamic project loading  
+✅ **Contact Form** - Real form submission  
+✅ **Admin Dashboard** - Manage portfolio items  
+✅ **Health Check** - API status monitoring  
+
+## 🛠️ Tech Stack
+
+### Frontend
+- React 18 + TypeScript
+- Vite (Build tool)
+- Tailwind CSS (Styling)
+- Framer Motion (Animations)
+- React Router (Navigation)
+- Shadcn/ui (Components)
+
+### Backend
+- Node.js + Express
 - TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+- MongoDB + Mongoose
+- JWT Authentication
+- bcryptjs (Password hashing)
+- CORS + Helmet (Security)
 
-## How can I deploy this project?
+## 📁 Project Structure
 
-Simply open [Lovable](https://lovable.dev/projects/848f71b4-c521-4eb9-92d6-139f002e8f29) and click on Share -> Publish.
+```
+rahul-main/
+├── src/                    # Frontend source
+│   ├── components/         # React components
+│   ├── pages/             # Page components
+│   ├── services/          # API services
+│   └── ...
+├── backend/               # Backend source
+│   ├── src/
+│   │   ├── controllers/   # API controllers
+│   │   ├── models/        # Database models
+│   │   ├── routes/        # API routes
+│   │   └── middleware/    # Auth & validation
+│   └── ...
+└── public/               # Static assets
+```
 
-## Can I connect a custom domain to my Lovable project?
+## 🎨 Customization
 
-Yes, you can!
+### Add New Portfolio Items
+1. Visit `/admin` dashboard
+2. Click "Add New Item"
+3. Fill in project details
+4. Save and see it on your portfolio!
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+### Modify Styling
+- Edit `tailwind.config.ts` for theme changes
+- Modify component files in `src/components/`
+- Update animations in Framer Motion components
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Backend Configuration
+- Edit `backend/.env` for environment variables
+- Modify API endpoints in `backend/src/routes/`
+- Update database models in `backend/src/models/`
+
+## 🔧 Development
+
+### Frontend Commands
+```bash
+npm run dev          # Start development server
+npm run build        # Build for production
+npm run preview      # Preview production build
+```
+
+### Backend Commands
+```bash
+cd backend
+npm run dev          # Start development server
+npm run build        # Build TypeScript
+npm start           # Start production server
+```
+
+## 🌟 Next Steps
+
+1. **Add Real Content** - Replace sample data with your projects
+2. **Customize Styling** - Match your brand colors and fonts
+3. **Add Authentication** - Protect admin dashboard
+4. **Deploy** - Host on Vercel/Netlify (frontend) + Railway/Heroku (backend)
+5. **Add Features** - Blog, testimonials, analytics
+
+## 📞 Support
+
+Your portfolio is now fully functional with:
+- ✅ Dynamic portfolio loading from API
+- ✅ Working contact form
+- ✅ Admin dashboard for content management
+- ✅ Secure backend with authentication
+- ✅ Modern, responsive design
+
+**Ready to showcase your video editing skills!** 🎬✨

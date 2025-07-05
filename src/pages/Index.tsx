@@ -208,27 +208,9 @@ const Index = ({ isDark, onThemeToggle }) => {
         </div>
       </section>
       
-      {/* Testimonials Section with sparkles */}
-      <div className="relative">
-        <div className="absolute inset-0">
-          <SparklesCore 
-            background="transparent" 
-            minSize={0.2} 
-            maxSize={0.6} 
-            particleDensity={65} 
-            className="w-full h-full" 
-            particleColor={isDark ? "#fbbf24" : "#f59e0b"} 
-            speed={1.1} 
-          />
-        </div>
-        <div className="relative z-10">
-          <TestimonialsSection />
-        </div>
-      </div>
-      
       {/* Contact Section with sparkles */}
       <div className="relative z-10">
-        <ContactSection isDarkMode={isDark} />
+        <ContactSection isDarkMode={isDark} pricingTiers={pricingTiers} />
       </div>
       
       {/* Infinity Brand with sparkles */}

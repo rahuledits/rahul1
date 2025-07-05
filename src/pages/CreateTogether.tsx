@@ -53,7 +53,7 @@ const CreateTogether = ({ isDark, onThemeToggle }) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.6 }}
             >
-              <Link to="/#contact">
+              <Link to="/services">
                 <Button 
                   size="lg" 
                   className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-8 py-4 text-lg"
@@ -225,7 +225,7 @@ const CreateTogether = ({ isDark, onThemeToggle }) => {
                 <p className="text-gray-300 text-lg mb-8 max-w-2xl mx-auto">
                   Let's collaborate to bring your creative vision to life. Every great project starts with a conversation.
                 </p>
-                <Link to="/#contact">
+                <Link to="/services">
                   <Button 
                     size="lg" 
                     className="bg-gradient-to-r from-orange-500 to-pink-500 hover:from-orange-600 hover:to-pink-600 text-white px-10 py-4 text-lg"
